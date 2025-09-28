@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sonn Official- Produk</title>
+    <style>
+        /* Gaya Dasar dan Tema Gelap */
+        body {
+            font-family: -apple-system, BlinkMacMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            max-width: 450px;
+            margin: 0 auto;
+            min-height: 100vh;
+            
+            /* --- BACKGROUND GAMBAR BARU (Placeholder yang Andal) --- */
+            background-image: url('https://files.catbox.moe/d1h1h6.png');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center center;
+            background-size: cover; 
+            position: relative;
+        }
+
+        /* Pseudo-element untuk Overlay Opacity */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: inherit; 
+            background-repeat: inherit;
+            background-attachment: inherit;
+            background-position: inherit;
+            background-size: inherit;
+            opacity: 0.08; 
+            z-index: -1; 
+        }
+
+        /* Hero Section (Logo Besar) */
+        .hero-section {
+            background-color: rgba(30, 30, 30, 0.9); 
+            padding: 30px 16px;
+            text-align: center;
+            border-bottom: 3px solid #333;
+        }
+        
+        /* Gaya Logo IMG */
+        .large-logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 15px;
+            border-radius: 50%; /* Tambahkan agar logo bisa berbentuk lingkaran */
+            object-fit: cover;
+            filter: drop-shadow(0 0 8px rgba(255, 200, 0, 0.6));
+            border: 3px solid #FFD700;
+        }
+        
+        .hero-title {
+            font-size: 24px;
+            font-weight: 900;
+            margin: 0 0 5px 0;
+            letter-spacing: 1px;
+            color: #FFD700;
+        }
+        .hero-subtitle {
+            font-size: 14px;
+            color: #ccc;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        /* --- Kontrol (Pencarian dan Filter) --- */
+        .controls {
+            padding: 16px;
+            padding-top: 20px;
+            background-color: rgba(18, 18, 18, 0.9); 
+        }
+        .search-box {
+            background-color: #333333;
+            border-radius: 8px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .search-box input {
+            background: none;
+            border: none;
+            color: #ffffff;
+            flex-grow: 1;
+            padding: 5px 10px;
+            outline: none;
+        }
+        .search-box input::placeholder {
+            color: #999;
+        }
+        
+        /* Filter Kategori (Dropdown) */
+        .filter-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #cccccc;
+        }
+        .filter-group select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            background-color: #333333;
+            color: #ffffff;
+            border: none;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            margin-bottom: 20px;
+        }
+
+        /* Daftar Produk */
+        .product-list {
+            padding: 0 16px;
+            padding-bottom: 20px;
+            background-color: rgba(18, 18, 18, 0.8); 
+        }
+        .product-card {
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid #282828;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Detail Produk */
+        .category-tag {
+            display: inline-block;
+            background-color: rgba(0, 150, 136, 0.2);
+            color: #00ffbf;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 5px;
+            margin-bottom: 8px;
+        }
+        .product-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        .price {
+            font-size: 22px;
+            font-weight: 900;
+            margin-bottom: 15px;
+        }
+        
+        /* Tombol Beli */
+        .buy-button {
+            width: 100%;
+            padding: 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .buy-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Modal Checkout */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        .modal-content {
+            background-color: #1e1e1e;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 400px;
+            border: 1px solid #333;
+        }
+        .close-btn {
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            color: #aaa;
+            cursor: pointer;
+        }
+        .modal-input input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            background-color: #333;
+            color: white;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+        .payment-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .payment-options button {
+            flex: 1 1 45%;
+            padding: 12px;
+            border-radius: 8px;
+            background-color: #1e1e1e;
+            color: #007bff;
+            border: 1px solid #007bff;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .payment-options button.selected {
+            background-color: #007bff;
+            color: white;
+        }
+        .confirm-button {
+            background-color: #007bff;
+        }
+        
+        /* FOOTER */
+        footer {
+            height: 20px;
+            background-color: #1e1e1e;
+        }
+    </style>
+</head>
+<body onload="initializeLogo()">
+
+    <!-- HERO SECTION (LOGO BESAR) -->
+    <div class="hero-section">
+        
+        <!-- IMG Tag untuk Logo Dinamis -->
+        <img id="dynamic-logo" class="large-logo" src="https://files.catbox.moe/d1h1h6.png" alt="Logo Sonn Official">
+
+        <h2 class="hero-title">SONN OFFICIAL </h2>
+        <p class="hero-subtitle">haii 𝐒𝐨𝐧𝐧 𝐎𝐟𝐟𝐢𝐜𝐢𝐚𝐥 adalah salah satu pengembang/penjual script terbaik di asia tenggara, pelayanan yang sangat responsif. Rasakan Kenikmatannya! </p>
+    </div>
+    <!----------------------------------------------->
+
+    <div class="controls">
+        <div class="search-box">
+            <span class="icon">&#128269;</span>
+            <input type="text" placeholder="Cari Script / PANEL..." id="search-input" onkeyup="filterProducts()">
+        </div>
+
+        <div class="filter-group">
+            <label for="filter-category">Filter Kategori</label>
+            <select id="filter-category" onchange="filterProducts()">
+                <option value="Semua Kategori">Semua Kategori</option>
+                <option value="VIA TELE">VIA TELE</option>
+                <option value="VIA TELE / WA">VIA TELE / WA</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="product-list" id="product-list">
+        
+        <!-- Produk 1 -->
+        <div class="product-card" data-product-name="SC STELLAR LIGHT" data-product-category="VIA TELE" data-product-price="Rp30.000">
+            <div class="category-tag">VIA TELE</div>
+            <div class="product-name">SC STELLAR LIGHT</div>
+            <div class="price">Rp30.000</div>
+            <button class="buy-button" onclick="openModal('SC STELLAR LIGHT', 'Rp30.000')">Beli Sekarang</button>
+        </div>
+
+        <!-- Produk 2 -->
+        <div class="product-card" data-product-name="SC VOID XMOON" data-product-category="VIA TELE" data-product-price="Rp35.000">
+            <div class="category-tag">VIA TELE</div>
+            <div class="product-name">SC VOID XMOON</div>
+            <div class="price">Rp35.000</div>
+            <button class="buy-button" onclick="openModal('SC VOID XMOON', 'Rp35.000')">Beli Sekarang</button>
+        </div>
+        
+        <!-- Produk 3 -->
+        <div class="product-card" data-product-name="SC TREDICT" data-product-category="VIA TELE" data-product-price="Rp40.000">
+            <div class="category-tag">VIA TELE</div>
+            <div class="product-name">SC TREDICT</div>
+            <div class="price">Rp40.000</div>
+            <button class="buy-button" onclick="openModal('SC TREDICT', 'Rp40.000')">Beli Sekarang</button>
+        </div>
+        
+        <!-- Produk 4 -->
+        <div class="product-card" data-product-name="PANEL UNLI" data-product-category="VIA TELE / WA" data-product-price="Rp5.000">
+            <div class="category-tag">VIA TELE / WA</div>
+            <div class="product-name">PANEL UNLI</div>
+            <div class="price">Rp5.000</div>
+            <button class="buy-button" onclick="openModal('PANEL UNLI', 'Rp5.000')">Beli Sekarang</button>
+        </div>
+        
+    </div>
+    
+    <!-- Footer Kosong setelah biodata dihapus -->
+    <footer></footer>
+
+    <!-- MODAL CHECKOUT -->
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 id="modal-product-name" style="margin-top: 0; font-size: 18px;"></h2>
+            <p id="modal-product-price" style="color: #ccc;"></p>
+            <hr style="border-color: #333;">
+
+            <div class="modal-input">
+                <label>Nama Lengkap Lu</label>
+                <input type="text" placeholder="Enter your name" id="input-nama-lengkap">
+            </div>
+
+            <label>Pilih Metode Pembayaran</label>
+            <div class="payment-options" id="payment-options">
+                <button data-payment="QRIS" class="payment-button">QRIS</button>
+                <button data-payment="Dana" class="payment-button">Dana</button>
+                <button data-payment="Gopay" class="payment-button">Gopay</button>
+            </div>
+
+            <button class="buy-button confirm-button" onclick="confirmOrder()">Konfirmasi Pesanan</button>
+        </div>
+    </div>
+
+    <script>
+        // =========================================================================
+        // PENGATURAN LOGO DINAMIS
+        // Ganti URL di bawah ini dengan link logo yang Anda inginkan.
+        // =========================================================================
+        const USER_LOGO_URL = 'https://files.catbox.moe/d1h1h6.png';
+        const DEFAULT_LOGO_URL = 'https://files.catbox.moe/d1h1h6.png';
+
+        function initializeLogo() {
+            const logoImage = document.getElementById('dynamic-logo');
+            // Cek apakah USER_LOGO_URL diisi, jika ya gunakan, jika tidak gunakan default
+            logoImage.src = USER_LOGO_URL && USER_LOGO_URL !== '' ? USER_LOGO_URL : DEFAULT_LOGO_URL;
+            // Jika logo gagal dimuat (misalnya link rusak), gunakan logo default
+            logoImage.onerror = () => {
+                logoImage.src = DEFAULT_LOGO_URL;
+            };
+        }
+        
+        // Variabel dan Fungsi Lain
+        let selectedPayment = '';
+        let currentProductName = '';
+
+        // 1. Fungsi Utama untuk Pencarian dan Filter
+        function filterProducts() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const selectedCategory = document.getElementById('filter-category').value;
+            const productCards = document.querySelectorAll('.product-card');
+
+            productCards.forEach(card => {
+                const productName = card.querySelector('.product-name').innerText.toLowerCase();
+                const productCategory = card.getAttribute('data-product-category');
+                
+                let matchesSearch = productName.includes(searchTerm);
+                let matchesCategory = selectedCategory === 'Semua Kategori' || productCategory === selectedCategory;
+
+                if (matchesSearch && matchesCategory) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        // 2. Fungsi Modal dan WhatsApp
+        function openModal(name, price) {
+            document.getElementById('modal-product-name').innerText = name;
+            document.getElementById('modal-product-price').innerText = price;
+            currentProductName = name;
+            document.getElementById('checkoutModal').style.display = 'block';
+
+            document.getElementById('input-nama-lengkap').value = '';
+            selectedPayment = '';
+            document.querySelectorAll('.payment-button').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+        }
+
+        function closeModal() {
+            document.getElementById('checkoutModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('checkoutModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+        
+        document.getElementById('payment-options').addEventListener('click', function(e) {
+            if (e.target.classList.contains('payment-button')) {
+                document.querySelectorAll('.payment-button').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                
+                e.target.classList.add('selected');
+                selectedPayment = e.target.getAttribute('data-payment');
+            }
+        });
+
+        function confirmOrder() {
+            const namaLengkap = document.getElementById('input-nama-lengkap').value;
+            const phoneNumber = '6283159696918';
+
+            if (!namaLengkap || !selectedPayment) {
+                // Menggunakan console.error/console.log sebagai pengganti alert()
+                console.error('ERROR: Harap isi Nama Lengkap dan pilih Metode Pembayaran.');
+                // Mengganti alert dengan pemberitahuan di konsol
+                return;
+            }
+
+            const message = `Halo Sonn Official. Saya ingin membeli produk: *${currentProductName}*.\n\n*Nama Lengkap:* ${namaLengkap}\n*Metode Pembayaran:* ${selectedPayment}\n\nMohon petunjuk selanjutnya. Terima kasih.`;
+
+            const waUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            
+            closeModal();
+            window.open(waUrl, '_blank');
+        }
+    </script>
+</body>
+</html>
